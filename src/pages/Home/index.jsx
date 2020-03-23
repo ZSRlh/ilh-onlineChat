@@ -1,35 +1,33 @@
-import React, { Component } from 'react'
-import { Layout } from 'antd'
+import React, { Component, useState, useEffect } from 'react'
+import { notification } from 'antd'
+import { sendRequest } from '../../api/requestHandler'
+import { initRes } from './dataConfig';
 
 import './style.less'
 
-const { Header, Sider, Content, Footer } = Layout
-export default class Home extends Component {
-
-    state = {
-        collapsed: false,
-      };
+const Home = () => {
     
-      onCollapse = collapsed => {
-        console.log(collapsed);
-        this.setState({ collapsed });
-      };
-    render() {
-        return (
-            <div>
-            <Layout className = 'layout'>
-                    <Sider className = 'sider' collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-                        
-                    </Sider>
-                <Layout >
-                    <Header className = 'header'></Header>
-                    <Content className = 'content'>
-                        <div>chat</div>
-                    </Content>
-                    <Footer className = 'footer'></Footer>
-                </Layout>
-            </Layout>
-            </div>
-        )
-    }
+    const [res, setRes] = useState('')
+
+    const getData = () => {
+        sendRequest()
+            .then(res => setRes(res.data))
+            .catch(err => {
+                notification.error({
+                    message: '出错了',
+                    description: err,
+                })
+            });
+    };
+
+    return (
+        <div>
+            Home
+            <button onClick = {getData}>send request</button>
+            <p>{res}</p>
+        </div>
+    )
 }
+
+
+export default Home
