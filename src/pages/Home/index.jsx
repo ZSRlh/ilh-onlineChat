@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react'
 import { notification } from 'antd'
 import { sendRequest } from '../../api/requestHandler'
+import { createWebSocket, receiveMessage, sendMessage } from '../../api/wsClient'
 import { initRes } from './dataConfig';
 
 import './style.less'
@@ -20,11 +21,14 @@ const Home = () => {
             });
     };
 
+    const url = 'ws://localhost:8888'
+
     return (
         <div>
-            Home
-            <button onClick = {getData}>send request</button>
-            <p>{res}</p>
+            Home<br></br>
+            <input type="text" id="input" placeholder = 'input...'/>
+            {/* <button onClick = {sendMessage}>send request</button> */}
+            <p id = 'output'>...</p>
         </div>
     )
 }
